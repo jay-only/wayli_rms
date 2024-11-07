@@ -1,0 +1,72 @@
+{% extends "home/home.html" %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="text-center mb-4">Order List</h1>
+
+    {% if orders %}
+        <!-- Orders Pending and Completed -->
+        <div class="row mb-4">
+            <h3>Pending & Completed Orders</h3>
+            {% for order in orders %}
+                {% if order.status != 'Paid' %}
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <p><strong>Table:</strong> {{ order.table.number }}</p>
+                                <p><strong>Items:</strong>
+                                    {% for order_item in order.orderitem_set.all %}
+                                        {{ order_item.quantity }} x {{ order_item.menu_item.name }}<br>
+                                    {% endfor %}
+                                </p>
+                                <p><strong>Created At:</strong> {{ order.created_at|date:"M d, Y - H:i" }}</p>
+                                <p>Status: 
+                                    <span class="badge {% if order.status == 'Completed' %}bg-success{% else %}bg-warning{% endif %} text-uppercase">{{ order.status }}</span>
+                                </p>
+                                {% if order.status == 'Completed' %}
+                                    <a href="{% url 'mark_order_paid' order.id %}" class="btn btn-success btn-sm mt-3">Mark as Paid</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <!-- Divider -->
+        <hr class="my-4">
+
+        <!-- Orders Paid -->
+        <div class="row mb-4">
+            <h3>Paid Orders</h3>
+            {% for order in orders %}
+                {% if order.status == 'Paid' %}
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <p><strong>Table:</strong> {{ order.table.number }}</p>
+                                <p><strong>Items:</strong>
+                                    {% for order_item in order.orderitem_set.all %}
+                                        {{ order_item.quantity }} x {{ order_item.menu_item.name }}<br>
+                                    {% endfor %}
+                                </p>
+                                <p><strong>Created At:</strong> {{ order.created_at|date:"M d, Y - H:i" }}</p>
+                                <p>Status: 
+                                    <span class="badge bg-secondary text-uppercase">{{ order.status }}</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+    {% else %}
+        <p class="text-center">No orders available.</p>
+    {% endif %}
+
+    <div class="text-center mt-4">
+        <a href="{% url 'create_order' %}" class="btn btn-primary">Create New Order</a>
+    </div>
+</div>
+{% endblock content %}

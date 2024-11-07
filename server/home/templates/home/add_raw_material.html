@@ -1,0 +1,19 @@
+<!-- home/templates/home/add_raw_material.html -->
+{% extends "home/home.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="card p-4" style="width: 100%; max-width: 500px;">
+        <h1 class="text-center">Add Raw Material</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-primary w-100 mt-3">Add Raw Material</button>
+        </form>
+        <div class="text-center mt-3">
+            <a href="{% url 'raw_material_list' %}">View Raw Materials</a>
+        </div>
+    </div>
+</div>
+{% endblock content %}

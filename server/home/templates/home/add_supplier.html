@@ -1,0 +1,21 @@
+{% extends "home/home.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="card p-4" style="width: 100%; max-width: 500px;">
+        <h1 class="text-center">Add Supplier</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-primary w-100 mt-3">Add Supplier </button>
+    </form>
+    <div class="text-center mt-3">
+        <a href="{% url 'raw_material_list' %}">View Supplier</a>
+    </div>
+</div>
+</div>
+
+{% endblock content %}
+

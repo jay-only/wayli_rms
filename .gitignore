@@ -1,0 +1,72 @@
+# Python Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django-specific
+db.sqlite3
+*.log
+media/
+static/
+*.pot
+*.pyc
+*.pyo
+
+# Environment Variables
+.env
+.env.*
+
+# IDE Specific
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Virtual Environment
+venv/
+env/
+.virtualenv/
+
+# macOS Specific
+.DS_Store
+
+# Windows Specific
+Thumbs.db
+
+# Test Coverage
+htmlcov/
+.coverage
+.tox/
+.nox/
+*.cover
+coverage.xml
+.cache
+
+# Pytest
+.pytest_cache/
+.pytest_tmp/
+
+
+
+# MySQL / PostgreSQL binary dumps
+*.dump
+*.sql
+
+# Static and Compiled Assets
+*.sass-cache/
+*.node_modules/
+node_modules/
+*.scssc/
+*.map
+*.lock
+*.bundle
+
+# Docker
+*.container
+*.docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Security
+secrets.json

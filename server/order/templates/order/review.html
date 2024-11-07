@@ -1,0 +1,23 @@
+{%extends 'home/home.html'%}
+
+{% block content %}
+
+<form method="post" action="{% url 'kitchen_view' %}">
+    {% csrf_token %}
+    <div class="container">
+        {% for item in selected_items %}
+            <div class="row mb-3">
+                <div class="col-md-4">{{ item.name }}</div>
+                <div class="col-md-2">Quantity: {{ quantity.item.id }}</div>
+                <div class="col-md-3">{{ item.price }}</div>
+            </div>
+        {% endfor %}
+        <div class="form-group">
+            <label for="special_request">Special Request:</label>
+            <textarea class="form-control" name="special_request" id="special_request"></textarea>
+        </div>
+        <button type="submit" class="btn btn-success">Send to Kitchen</button>
+    </div>
+</form>
+
+{% endblock content %}
