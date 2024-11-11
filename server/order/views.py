@@ -2,16 +2,18 @@
 
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import OrderForm, OrderItemForm
-from .models import Order, MenuItem, Category, OrderItem
+from .models import Order, MenuItem, Category, OrderItem, Table
 from django.utils import timezone
 
 
 def menu_view(request):
     categories = Category.objects.all()
     items = MenuItem.objects.all()
+    tables = Table.objects.filter(is_occupied=False)
     context = {
         'categories': categories,
         'items': items,
+        'tables': tables
     }
     return render(request, 'order/create_order.html', context)
 
@@ -78,6 +80,7 @@ def mark_order_paid(request, order_id):
 def order_review(request):
     if request.method == 'POST':
         # Get selected items and quantities
+        print(f'Data: {request.POST}')
         selected_item_ids = request.POST.getlist('selected_items')
         selected_items = MenuItem.objects.filter(id__in=selected_item_ids)
         
@@ -86,10 +89,22 @@ def order_review(request):
             int(item_id): int(request.POST.get(f'quantity_{item_id}', 1))
             for item_id in selected_item_ids
         }
+
+        table = Table.objects.get(id=request.POST.get('table'))
+        
+        order = Order(table=table)
+        order.save()
+        for menu in selected_items:
+            order.items.add(menu)
+            
+        items = OrderItem.objects.filter(order=order, menu_item__in=order.items.all())
+        print(f'Item: {items}')
+        
         
         return render(request, 'order/review.html', {
-            'selected_items': selected_items,
-            'quantities': quantities
+            'selected_items': selected_items, 
+            'quantities': quantities,
+            'order': order
         })
         
         

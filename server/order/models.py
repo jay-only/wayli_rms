@@ -1,15 +1,16 @@
-# home/models.py
+# order/models.py
 
 from django.db import models
 
 class Table(models.Model):
     number = models.PositiveIntegerField(unique=True)
+    is_occupied = models.BooleanField(default=False)
 
     def __str__(self):
         return f"Table {self.number}"
 
 
-
+ 
 
 from django.db import models
 
@@ -42,7 +43,7 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    menu_item = models.ForeignKey(MenuItem, on_delete=models.CASCADE)
+    menu_item = models.ForeignKey(MenuItem, on_delete=models.CASCADE) 
     quantity = models.PositiveIntegerField(default=1)
 
     def __str__(self):

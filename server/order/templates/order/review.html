@@ -5,10 +5,10 @@
 <form method="post" action="{% url 'kitchen_view' %}">
     {% csrf_token %}
     <div class="container">
-        {% for item in selected_items %}
+        {% for item in order.items.all %}
             <div class="row mb-3">
                 <div class="col-md-4">{{ item.name }}</div>
-                <div class="col-md-2">Quantity: {{ quantity.item.id }}</div>
+                <div class="col-md-2">Quantity: {{ item }}</div>
                 <div class="col-md-3">{{ item.price }}</div>
             </div>
         {% endfor %}

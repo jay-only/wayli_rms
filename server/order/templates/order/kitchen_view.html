@@ -2,39 +2,43 @@
 
 {% block content %}
 <div class="container my-5">
-    <h1 class="text-center mb-4">Kitchen Orders</h1>
+    <h1 class="text-center mb-4">Kitchen View</h1>
 
-    {% for order in orders %}
-      <div class="card mb-3 shadow-sm">
-        <div class="card-header d-flex justify-content-between align-items-center">
-          <h2 class="h5 mb-0">Table {{ order.table.number }}</h2>
-          {% if order.status == 'Completed' %}
-            <span class="badge bg-success text-uppercase">{{ order.status }}</span>
-          {% else %}
-            <span class="badge bg-warning text-uppercase">{{ order.status }}</span>
-          {% endif %}
-        </div>
-        <div class="card-body">
-          <p class="text-muted">Created At: {{ order.created_at|date:"M d, Y - H:i" }}</p>
+    <div class="row">
+        {% for order in orders %}
+          <div class="col-md-6 mb-4">
+              <div class="card shadow-sm">
+                  <div class="card-header d-flex justify-content-between align-items-center">
+                      <h2 class="h5 mb-0">Table {{ order.table.number }}</h2>
+                      {% if order.status == 'Completed' %}
+                          <span class="badge bg-success text-uppercase">{{ order.status }}</span>
+                      {% else %}
+                          <span class="badge bg-warning text-uppercase">{{ order.status }}</span>
+                      {% endif %}
+                  </div>
+                  <div class="card-body">
+                      <p class="text-muted">Created At: {{ order.created_at|date:"M d, Y - H:i" }}</p>
 
-          <h5>Items:</h5>
-          <ul class="list-group list-group-flush">
-            {% for order_item in order.orderitem_set.all %}
-              <li class="list-group-item d-flex justify-content-between">
-                <span>{{ order_item.quantity }} x {{ order_item.menu_item.name }}</span>
-              </li>
-            {% endfor %}
-          </ul>
+                      <h5>Items:</h5>
+                      <ul class="list-group list-group-flush">
+                          {% for order_item in order.orderitem_set.all %}
+                              <li class="list-group-item d-flex justify-content-between">
+                                  <span>{{ order_item.quantity }} x {{ order_item.menu_item.name }}</span>
+                              </li>
+                          {% endfor %}
+                      </ul>
 
-          {% if order.status != 'Completed' %}
-            <div class="text-center mt-3">
-              <a href="{% url 'mark_order_complete' order.id %}" class="btn btn-success">Mark as Complete</a>
-            </div>
-          {% endif %}
-        </div>
-      </div>
-    {% empty %}
-      <p class="text-center">No orders available.</p>
-    {% endfor %}
+                      {% if order.status != 'Completed' %}
+                          <div class="text-center mt-3">
+                              <a href="{% url 'mark_order_complete' order.id %}" class="btn btn-success">Mark as Complete</a>
+                          </div>
+                      {% endif %}
+                  </div>
+              </div>
+          </div>
+        {% empty %}
+          <p class="text-center">No orders available.</p>
+        {% endfor %}
+    </div>
 </div>
 {% endblock content %}
