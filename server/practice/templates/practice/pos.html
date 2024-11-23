@@ -1,0 +1,76 @@
+{% extends "home/home.html" %}
+
+{% block content %}
+<div class="container-fluid my-3">
+    <div class="row">
+
+        <!-- Sidebar Categories -->
+        <div class="col-md-2 bg-light p-3">
+            <h5>Categories</h5>
+            <button class="btn btn-outline-secondary btn-block mb-2">All Categories</button>
+            <button class="btn btn-outline-secondary btn-block mb-2">Drinks</button>
+            <button class="btn btn-outline-secondary btn-block mb-2">Burger</button>
+            <button class="btn btn-outline-secondary btn-block mb-2">Pizza</button>
+            <!-- Add more categories as needed -->
+        </div>
+
+        <!-- Menu Items Section -->
+        <div class="col-md-6">
+            <!-- Order Type Buttons -->
+            <div class="mb-3 d-flex justify-content-around">
+                <a href="{% url 'menu' %}" class="btn btn-primary">Dine In</a>
+                <a href="#" class="btn btn-secondary">Takeaway</a>
+                <a href="#" class="btn btn-info">Delivery</a>
+            </div
+
+
+            <!-- Menu Items Grid -->
+            <div class="row row-cols-3">
+                <!-- Example Menu Item 1 -->
+                <div class="col mb-3">
+                    <div class="card">
+                        <img src="https://via.placeholder.com/100" class="card-img-top" alt="Menu Item">
+                        <div class="card-body text-center">
+                            <h6 class="card-title">Zinger Burger</h6>
+                            <p class="card-text">$5.00</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add more menu items dynamically here -->
+            </div>
+        </div>
+
+        <!-- Order Summary Table -->
+        <div class="col-md-4">
+            <h5>Order Summary</h5>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Qty</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Zinger Burger</td>
+                        <td>1</td>
+                        <td>$5.00</td>
+                    </tr>
+                    <tr>
+                        <td>Beef Kabab</td>
+                        <td>2</td>
+                        <td>$8.00</td>
+                    </tr>
+                    <!-- More items can be added dynamically here -->
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-between mt-3">
+                <span class="h5">Total: $13.00</span>
+                <button class="btn btn-success">Check Out</button>
+            </div>
+        </div>
+        
+    </div>
+</div>
+{% endblock %}

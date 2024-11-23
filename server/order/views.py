@@ -1,4 +1,4 @@
-# home/views.py
+# order/views.py
 
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import OrderForm, OrderItemForm
@@ -10,12 +10,22 @@ def menu_view(request):
     categories = Category.objects.all()
     items = MenuItem.objects.all()
     tables = Table.objects.filter(is_occupied=False)
+    
     context = {
         'categories': categories,
         'items': items,
         'tables': tables
     }
-    return render(request, 'order/create_order.html', context)
+    return render(request, 'order/menu.html', context)
+
+
+
+def mark_prepared(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    # Update the order status (assuming there's a `status` field)
+    order.status = "Prepared"
+    order.save()
+    return redirect('kitchen_view')  # Redirect back to the kitchen view or appropriate page
 
 
 # def create_order(request):
@@ -77,10 +87,11 @@ def mark_order_paid(request, order_id):
     # Redirect back to the order list
     return redirect('order_list')
 
+
+
 def order_review(request):
     if request.method == 'POST':
         # Get selected items and quantities
-        print(f'Data: {request.POST}')
         selected_item_ids = request.POST.getlist('selected_items')
         selected_items = MenuItem.objects.filter(id__in=selected_item_ids)
         
@@ -90,22 +101,37 @@ def order_review(request):
             for item_id in selected_item_ids
         }
 
-        table = Table.objects.get(id=request.POST.get('table'))
+        # Get the special request from the form
+        special_request = request.POST.get('special_request', '')
+
+        table = get_object_or_404(Table, id=request.POST.get('table'))
         
-        order = Order(table=table)
-        order.save()
+        # Create the order
+        order = Order.objects.create(table=table, special_request=special_request)
+        
+        # Add items to the order with specified quantities
         for menu in selected_items:
-            order.items.add(menu)
-            
-        items = OrderItem.objects.filter(order=order, menu_item__in=order.items.all())
-        print(f'Item: {items}')
+            quantity = quantities.get(menu.id, 1)
+            OrderItem.objects.create(order=order, menu_item=menu, quantity=quantity)
         
+        # Retrieve OrderItems for the template
+        items = OrderItem.objects.filter(order=order)
+        
+        # Calculate total price for each item
+        for item in items:
+            item.total_price = item.menu_item.price * item.quantity
+        
+        # Calculate the total price of the entire order
+        total_price = sum(item.total_price for item in items)
         
         return render(request, 'order/review.html', {
-            'selected_items': selected_items, 
-            'quantities': quantities,
-            'order': order
+            'items': items,
+            'order': order,
+            'total_price': total_price
         })
+
+
+
         
         
         
@@ -125,7 +151,7 @@ def submit_order(request):
             menu_item = MenuItem.objects.get(id=item_id)
             OrderItem.objects.create(order=order, menu_item=menu_item, quantity=quantity)
         
-        return redirect('kitchen_view')
+        return redirect('kitchen_view', special_request)
     return redirect('order_review')
 
 

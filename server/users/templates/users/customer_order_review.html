@@ -1,0 +1,32 @@
+{% extends "home/home.html" %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="text-center">Review Your Order</h2>
+
+    <form method="post" action="{% url 'customer_order_review' %}">
+        {% csrf_token %}
+        <div class="order-items">
+            {% for item in items %}
+                <div class="row mb-3">
+                    <div class="col-md-4">{{ item.menu_item.name }}</div>
+                    <div class="col-md-2">Quantity: <input type="number" name="quantity_{{ item.id }}" value="{{ item.quantity }}" min="1" max="10" class="form-control"></div>
+                    <div class="col-md-3">Price: £{{ item.menu_item.price }}</div>
+                    <div class="col-md-3">Total: £{{ item.total_price }}</div>
+                </div>
+            {% endfor %}
+            <div class="row mb-3">
+                <div class="col-md-4"><strong>Total Price:</strong></div>
+                <div class="col-md-3">£{{ total_price }}</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="special_request">Special Request:</label>
+            <textarea class="form-control" name="special_request" id="special_request" rows="3"></textarea>
+        </div>
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-primary">Confirm Order</button>
+        </div>
+    </form>
+</div>
+{% endblock content %}

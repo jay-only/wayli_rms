@@ -37,6 +37,8 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=20, default='Pending')  # e.g., Pending, In Progress, Completed
     items = models.ManyToManyField(MenuItem, through='OrderItem')
+    special_request = models.TextField(blank=True, null=True)  # Add this field
+
 
     def __str__(self):
         return f"Order {self.id} - Table {self.table.number}"

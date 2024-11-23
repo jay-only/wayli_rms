@@ -40,3 +40,12 @@ def profile(request):
     }
 
     return render(request, 'users/profile.html', contex )
+
+def customer_menu(request):
+    return render(request, 'users/customer_menu.html')
+
+def customer_home(request):
+    return render(request, 'users/customer_home.html')
+
+def customer_order_review(request):
+    return render(request, 'users/customer_order_review.html')

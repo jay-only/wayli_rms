@@ -24,6 +24,7 @@ from users import views as user_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
+    path('practice/', include('practice.urls')),
     path('order/', include('order.urls')),# Add this line to include the home app's URLs
     # path('users/', include('users.urls')),
     path('register/', user_views.register, name='register'),
@@ -34,6 +35,10 @@ urlpatterns = [
     path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(template_name='users/password_reset_done.html'), name= 'password_reset_done'),
     path('password-reset-confirm/<uidb64>/<token>', auth_views.PasswordResetConfirmView.as_view(template_name='users/password_reset_confirm.html'), name= 'password_reset_confirm'),
     path('password-reset-completw/<uidb64>/<token>', auth_views.PasswordResetCompleteView.as_view(template_name='users/password_reset_complete.html'), name= 'password_reset_complete'),
+    path('customer_home/', user_views.customer_home, name='customer_home'),
+    path('customer_menu/', user_views.customer_menu, name='customer_menu'),
+    path('customer_order_review/', user_views.customer_order_review, name='customer_order_review'),
+
 ]
 
 if settings.DEBUG: 

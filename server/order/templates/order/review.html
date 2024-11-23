@@ -1,17 +1,25 @@
-{%extends 'home/home.html'%}
+
+{% extends 'home/home.html' %}
 
 {% block content %}
 
 <form method="post" action="{% url 'kitchen_view' %}">
     {% csrf_token %}
     <div class="container">
-        {% for item in order.items.all %}
+        {% for item in items %}
             <div class="row mb-3">
-                <div class="col-md-4">{{ item.name }}</div>
-                <div class="col-md-2">Quantity: {{ item }}</div>
-                <div class="col-md-3">{{ item.price }}</div>
+                <div class="col-md-4">{{ item.menu_item.name }}</div>
+                <div class="col-md-2">Quantity: {{ item.quantity }}</div>
+                <div class="col-md-3">Price: NLE {{ item.menu_item.price }}</div>
+                <div class="col-md-3">Total: NLE {{ item.total_price }}</div>
             </div>
         {% endfor %}
+        
+        <div class="row mb-3">
+            <div class="col-md-4"><strong>Total Price:</strong></div>
+            <div class="col-md-3">{{ total_price }}</div>
+        </div>
+        
         <div class="form-group">
             <label for="special_request">Special Request:</label>
             <textarea class="form-control" name="special_request" id="special_request"></textarea>

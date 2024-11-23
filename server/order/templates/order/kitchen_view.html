@@ -4,41 +4,101 @@
 <div class="container my-5">
     <h1 class="text-center mb-4">Kitchen View</h1>
 
-    <div class="row">
+    <!-- Pending Orders Section -->
+    <h2 class="text-warning text-uppercase">Pending Orders</h2>
+    <hr class="mb-4">
+    <div class="row g-4">
         {% for order in orders %}
-          <div class="col-md-6 mb-4">
-              <div class="card shadow-sm">
-                  <div class="card-header d-flex justify-content-between align-items-center">
-                      <h2 class="h5 mb-0">Table {{ order.table.number }}</h2>
-                      {% if order.status == 'Completed' %}
-                          <span class="badge bg-success text-uppercase">{{ order.status }}</span>
-                      {% else %}
-                          <span class="badge bg-warning text-uppercase">{{ order.status }}</span>
-                      {% endif %}
-                  </div>
-                  <div class="card-body">
-                      <p class="text-muted">Created At: {{ order.created_at|date:"M d, Y - H:i" }}</p>
-
-                      <h5>Items:</h5>
-                      <ul class="list-group list-group-flush">
-                          {% for order_item in order.orderitem_set.all %}
-                              <li class="list-group-item d-flex justify-content-between">
-                                  <span>{{ order_item.quantity }} x {{ order_item.menu_item.name }}</span>
-                              </li>
-                          {% endfor %}
-                      </ul>
-
-                      {% if order.status != 'Completed' %}
-                          <div class="text-center mt-3">
-                              <a href="{% url 'mark_order_complete' order.id %}" class="btn btn-success">Mark as Complete</a>
-                          </div>
-                      {% endif %}
-                  </div>
-              </div>
-          </div>
-        {% empty %}
-          <p class="text-center">No orders available.</p>
+            {% if order.status != 'Completed' %}
+                <div class="col-lg-3 col-md-6">
+                    <div class="card shadow-sm">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h2 class="h6 mb-0">Table {{ order.table.number }}</h2>
+                            <span class="badge bg-warning text-uppercase">{{ order.status }}</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="text-muted">Created At: {{ order.created_at|date:"M d, Y - H:i" }}</p>
+                            {% comment %} <div class="row mb-2">
+                                <div class="col-5"><strong>Special Request:</strong></div>
+                                <div class="col-7">{{ order.special_request }}</div>
+                            </div> {% endcomment %}
+                            <h6>Items:</h6>
+                            <ul class="list-group list-group-flush">
+                                {% for order_item in order.orderitem_set.all %}
+                                    <li class="list-group-item d-flex justify-content-between">
+                                        <span>{{ order_item.quantity }} x {{ order_item.menu_item.name }}</span>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                            <div class="text-center mt-3">
+                                <a href="{% url 'mark_order_complete' order.id %}" class="btn btn-success btn-sm">
+                                    Mark as Complete
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
         {% endfor %}
     </div>
+
+    <!-- Completed Orders Section -->
+    <h2 class="text-success text-uppercase mt-5">Completed Orders</h2>
+    <hr class="mb-4">
+    <div class="row g-4">
+        {% for order in orders %}
+            {% if order.status == 'Completed' %}
+                <div class="col-lg-3 col-md-6">
+                    <div class="card shadow-sm">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h2 class="h6 mb-0">Table {{ order.table.number }}</h2>
+                            <span class="badge bg-success text-uppercase">{{ order.status }}</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="text-muted">Created At: {{ order.created_at|date:"M d, Y - H:i" }}</p>
+                            <div class="row mb-2">
+                                <div class="col-5"><strong>Special Request:</strong></div>
+                                <div class="col-7">{{ order.special_request }}</div>
+                            </div>
+                            <h6>Items:</h6>
+                            <ul class="list-group list-group-flush">
+                                {% for order_item in order.orderitem_set.all %}
+                                    <li class="list-group-item d-flex justify-content-between">
+                                        <span>{{ order_item.quantity }} x {{ order_item.menu_item.name }}</span>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div class="text-center mb-4">
+        <a href="{% url 'kitchen_view' %}" class="btn btn-primary">Refresh Orders</a>
+    </div>
+    
 </div>
+
+<script>
+    const orderSocket = new WebSocket(
+        'ws://' + window.location.host + '/ws/kitchen/orders/'
+    );
+
+    orderSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        const order_data = data['order_data'];
+
+        // Update the UI with the new order data
+        const orderElement = document.getElementById('order-' + data['order_id']);
+        if (orderElement) {
+            orderElement.querySelector('.status').textContent = data['status'];
+        }
+    };
+
+    orderSocket.onclose = function(e) {
+        console.error('Order socket closed unexpectedly');
+    };
+</script>
+
 {% endblock content %}

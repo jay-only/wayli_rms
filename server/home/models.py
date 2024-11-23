@@ -48,3 +48,5 @@ class RawMaterial(models.Model):
     @property
     def total_value(self):
         return self.quantity * self.unit_price
+    
+

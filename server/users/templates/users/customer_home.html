@@ -1,0 +1,9 @@
+{% extends "home/home.html" %}
+
+{% block content %}
+<div class="container text-center my-5">
+    <h2>Welcome to Wayli Restaurant</h2>
+    <p>Order your favorite meals from our menu. Simply scan the QR code or click below to browse our menu.</p>
+    <a href="{% url 'customer_menu' %}" class="btn btn-primary mt-3">View Menu</a>
+</div>
+{% endblock content %}

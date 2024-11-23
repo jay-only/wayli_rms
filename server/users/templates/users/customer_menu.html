@@ -1,0 +1,39 @@
+{% extends "home/home.html" %}
+{% load custom_filters %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Browse Our Menu</h2>
+
+    <form method="post" action="{% url 'customer_order_review' %}">
+        {% csrf_token %}
+        {% for category in categories %}
+            <h3 class="mt-4">{{ category.name }}</h3>
+            <div class="row">
+                {% for item in items %}
+                    {% if item.category == category %}
+                        <div class="col-md-4 mb-4">
+                            <div class="card">
+                                <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.name }}">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ item.name }}</h5>
+                                    <p class="card-text">{{ item.description }}</p>
+                                    <p><strong>£{{ item.price }}</strong></p>
+                                    <div class="form-group">
+                                        <label for="quantity_{{ item.id }}">Quantity:</label>
+                                        <input type="number" name="quantity_{{ item.id }}" id="quantity_{{ item.id }}" class="form-control" min="1" max="10" value="1">
+                                    </div>
+                                    <button type="button" class="btn btn-primary mt-2 add-to-order" data-item-id="{{ item.id }}">Add to Order</button>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-success">Review Order</button>
+        </div>
+    </form>
+</div>
+{% endblock content %}

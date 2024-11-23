@@ -1,8 +1,9 @@
 # home/views.py
 
 from django.shortcuts import render, redirect
-from .forms import SupplierForm, RawMaterialForm
+from .forms import SupplierForm, RawMaterialForm, ProductForm
 from .models import Supplier, RawMaterial
+from order.models import MenuItem
 
 
 def home(request):
@@ -36,3 +37,19 @@ def supplier_list(request):
 def raw_material_list(request):
     raw_materials = RawMaterial.objects.all()
     return render(request, 'home/raw_material_list.html', {'raw_materials': raw_materials})
+
+def product(request):
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES)  # Add request.FILES
+        if form.is_valid():
+            form.save()
+            print(request.FILES)
+            return redirect('product_list')
+    else:
+        form = ProductForm()
+    return render(request, 'home/product.html', {'form': form})
+
+def product_list(request):
+    menu_items = MenuItem.objects.all()
+    return render(request, 'home/product_list.html', {'menu_items': menu_items})
+
