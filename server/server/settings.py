@@ -172,8 +172,11 @@ CHANNEL_LAYERS = {
 
 
 # settings.py
-STATIC_URL = 'staticfiles/'
+
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Adjust to your project directory structure
+MEDIA_ROOT = BASE_DIR / 'media'  # Adjust to your project directory structure
 
 
