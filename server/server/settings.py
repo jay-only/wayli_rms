@@ -88,9 +88,25 @@ WSGI_APPLICATION = 'server.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': db_config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}"  # Default to SQLite if DATABASE_URL is not set
-    )
+
+    'default': {
+
+        #'ENGINE': 'django.db.backends.sqlite3',
+
+        'ENGINE': 'django.db.backends.postgresql',
+
+        'NAME': 'railway',
+
+        'USER': 'postgres',
+
+        'PASSWORD': 'tyayJpGJxISecmedemUldZSmCZSZOlfA',
+
+        'HOST': 'junction.proxy.rlwy.net',
+
+        'PORT': '32924',
+
+    }
+
 }
 
 
