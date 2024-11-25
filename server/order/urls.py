@@ -11,6 +11,8 @@ urlpatterns = [
     # path('create-order/', views.create_order, name='create_order'),
     path('order-list/', views.order_list, name='order_list'),
     path('kitchen/', views.kitchen_view, name='kitchen_view'),
+    path('tables/', views.table_view, name='tables'),
+
     path('order/mark_prepared/<int:order_id>/', views.mark_prepared, name='mark_prepared'),
 
     # path('update-order-status/<int:order_id>/', views.update_order_status, name='update_order_status'),

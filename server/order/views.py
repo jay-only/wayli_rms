@@ -156,3 +156,6 @@ def submit_order(request):
 
 
 
+def table_view(request):
+    tables = Table.objects.all()
+    return render(request, 'order/tables.html', {'tables': tables})

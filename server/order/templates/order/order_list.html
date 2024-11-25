@@ -66,8 +66,8 @@
         <p class="text-center">No orders available.</p>
     {% endif %}
 
-    <div class="text-center mt-4">
+    {% comment %} <div class="text-center mt-4">
         <a href="{% url 'create_order' %}" class="btn btn-primary">Create New Order</a>
-    </div>
+    </div> {% endcomment %}
 </div>
 {% endblock content %}

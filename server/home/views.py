@@ -53,3 +53,6 @@ def product_list(request):
     menu_items = MenuItem.objects.all()
     return render(request, 'home/product_list.html', {'menu_items': menu_items})
 
+def staff(request):
+    return render(request, 'home/staff.html')
+

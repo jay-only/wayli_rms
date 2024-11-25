@@ -38,7 +38,7 @@ urlpatterns = [
     path('customer_home/', user_views.customer_home, name='customer_home'),
     path('customer_menu/', user_views.customer_menu, name='customer_menu'),
     path('customer_order_review/', user_views.customer_order_review, name='customer_order_review'),
-
+    path('staff', user_views.staff, name='staff')
 ]
 
 if settings.DEBUG: 

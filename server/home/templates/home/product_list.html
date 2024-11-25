@@ -21,7 +21,7 @@
                 <tr>
                     <td>{{ item.name }}</td>
                     <td>{{ item.category }}</td>
-                    <td>${{ item.price }}</td>
+                    <td>LE {{ item.price }}</td>
                     <td>{{ item.description|slice:":100" }}...</td> <!-- Truncate if too long -->
                     <td>
                         {% if item.image %}
@@ -44,8 +44,8 @@
         </table>
     </div>
 
-    <div class="text-center mt-4">
+    {% comment %} <div class="text-center mt-4">
         <a href="{% url 'add-product' %}" class="btn btn-success">Add New Menu Item</a>
-    </div>
+    </div> {% endcomment %}
 </div>
 {% endblock content %}

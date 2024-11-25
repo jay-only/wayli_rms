@@ -9,8 +9,8 @@ def categories(request):
 def products(request):
     return render(request, 'products.html')
 
-def tables(request):
-    return render(request, 'tables.html')
+# def tables(request):
+#     return render(request, 'tables.html')
 
 def staff(request):
     return render(request, 'staff.html')
