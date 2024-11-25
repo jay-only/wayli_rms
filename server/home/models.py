@@ -23,7 +23,8 @@ class RawMaterial(models.Model):
         ('kg', 'Kilograms'),
         ('g', 'Grams'),
         ('L', 'Liters'),
-        ('ml', 'Milliliters'),
+        ('bg', 'Bag'),
+        ('crt', 'Crate'),
         ('pcs', 'Pieces'),
         ('doz', 'dozen'),
     ]
